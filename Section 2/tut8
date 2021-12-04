@@ -1,0 +1,24 @@
+//Vectors 
+
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int main()
+{
+     // vector<int> arr = {1,2,10,12,16};
+
+//arr.push_back(122);  //after this vector will double its size( all its done memory level O(1))
+	//Size of the vector(No. of elements)
+//	cout<<arr.size()<<endl;
+
+	//Capacity of the vector(if array is efined it gives capacity that only)
+//	cout<<arr.capacity()<<endl;
+
+	//Fill Constructor
+	vector<int> arr(5,7);   //print 5times 7no. 
+	for(int i=0; i<arr.size(); i++)
+		cout<<arr[i]<<" ";
+	return 0;
+}
