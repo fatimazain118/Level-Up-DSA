@@ -1,0 +1,30 @@
+#include<iostream>
+#include<unordered_set>
+
+using namespace std;
+
+int main(){
+
+	//set is just a collection of keys
+	unordered_set<int> s{1,2,3,5,0};
+	int key;
+	cin>>key;
+    
+	//searching
+	if(s.find(key) != s.end()){  //s.end() denotes after the last element not the last element
+		cout<<"Key found"<<endl;
+	}
+	else
+	cout<<"Key not found"<<endl;
+
+	//erase also take O(1)
+	s.erase(2);
+	s.insert(111);
+
+	//printing all elements of set
+	//print in random order
+	for(auto x : s){
+		cout<< x <<",";
+	}
+	return 0;
+}
