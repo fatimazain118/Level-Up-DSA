@@ -1,0 +1,56 @@
+//triplet should be ordered and elements inside it should also be ordered
+
+#include<iostream>
+#include<vector>
+#include<unordered_set>
+#include<algorithm> //for sorting
+using namespace std;
+
+vector<vector<int>> Triplets(vector<int> arr, int target)
+{
+   //Logic
+   int n=arr.size();
+   sort(arr.begin(), arr.end());
+   vector<vector<int>> result;
+
+   //pick arr[i], for this find pairSum from remaining
+   for(int i=0; i<=n-3; i++)
+   {
+       int j = i+1;
+       int k = n-1;
+       while(j<k){
+           int current_Sum = arr[i];
+           current_Sum += arr[j];
+           current_Sum += arr[k];
+
+           if(current_Sum == target)
+           {
+               result.push_back({arr[i],arr[j], arr[k]});
+               j++;
+               k--;
+           }
+           else if(current_Sum < target)
+           j++;
+           else
+           k--;
+       }
+   }
+   return result;
+}
+int main()
+{
+    vector<int> arr{1,2,3,4,5,6,7,8,9,15};
+    int Sum = 18;
+
+    auto result = Triplets(arr, Sum);
+
+    for(auto v : result)   //for auto sum vector in result
+    {
+        for(auto no : v){
+            cout<<no<<",";
+        }
+        cout<<endl;
+    }
+    return 0;
+}
+//T.C - O(N^2)
