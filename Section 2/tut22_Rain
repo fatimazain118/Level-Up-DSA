@@ -1,0 +1,37 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int trappedWater(vector<int> height)
+{
+    int n = height.size();
+    vector<int> left(n,0);
+    vector<int> right(n,0);
+    
+    //In one iteration we can fill left/right array
+    
+    left[0] = height[0];
+    right[n-1] = height[n-1];
+
+    for(int i=1; i<n; i++)
+    {
+      left[i] =  max(left[i-1], height[i]);
+      right[n-i-1] = max(right[n-i], height[n-i-1]);
+    }
+
+    //for water
+    int water = 0;
+    for(int i=0; i<n; i++)
+    {
+         water += min(left[i], right[i]) - height[i];
+    }
+
+    return water;
+}
+int main()
+{
+    vector<int> height{0,1,0,2,1,0,1,3,2,1,2,1};
+    cout<<trappedWater(height)<<endl;
+    return 0;
+}
+T.C - O(N)
