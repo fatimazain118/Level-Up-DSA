@@ -1,0 +1,57 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int countMinSwaps(vector<int> arr)
+{
+  //to store current position of elements (sorting)
+  //store the current indices 
+  int n=arr.size();
+  int ans = 0;
+  
+  pair<int, int> indices[n];
+  for(int i=0; i<n; i++)
+  {
+      indices[i].first = arr[i];    //maked pair of sorted array and their index
+      indices[i].second = i;
+  }
+
+  //sorting
+  sort(indices, indices+n);
+
+  //Main Logic
+  vector<bool> visited(n, false);     //if node is already visited mark as false
+
+  for(int i=0; i<n-1; i++)  //when we track cycle
+  {
+      //if element/index is already visited or element is in right place
+      int old_position = indices[i].second;
+      if(visited[i] == true or old_position == i)  continue;
+
+      //visiting the element (index) for first time
+      int node = i;
+      int cycle = 0;
+      
+
+      while(!visited[node])
+      {
+          visited[node] = true;         //make it visited
+          int next_node = indices[node].second;   //make next node as old index value of indices array
+          node = next_node;
+          cycle += 1;
+      }
+      
+      ans += (cycle -1);
+  }
+  return ans;
+}
+
+int main()
+{
+    vector<int> arr{2,4,5,1,3};
+    cout<<countMinSwaps(arr)<<endl;
+    return 0;
+}
+
+T.C - O(N)
