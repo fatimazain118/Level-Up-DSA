@@ -1,0 +1,41 @@
+//1st approach in O(NlogN)
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+pair<int, int> SubarraySort(vector<int> arr)
+{
+    //Creating array to store the stored array
+    vector<int> secondArray(arr);
+    //sort
+   sort(arr.begin(), arr.end());
+   
+   //comaparison
+   int n=arr.size();
+   int i=0;
+   
+   while(i<n-1 and arr[i] == secondArray[i])
+   {
+       i++;
+   }
+   
+   int j=arr.size() - 1;
+   while(j>=0 and arr[j] == secondArray[j])
+   {
+       j--;
+   }
+   
+   //already sorted
+  if(i==arr.size()) return {-1,-1};
+   
+    return {i,j};
+}
+int main()
+{
+    vector<int> arr{1,2,3,4,5,8,6,7,9,10,11};
+    auto p = SubarraySort(arr);
+    cout<<p.first<<" and "<<p.second<<endl;
+    return 0;
+}
