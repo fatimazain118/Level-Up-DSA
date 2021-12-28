@@ -1,0 +1,24 @@
+#include<iostream>
+#include<vector>
+#include<cstring>
+using namespace std;
+
+int main(){
+
+    char input[1000];
+    cin.getline(input, 1000);
+
+    //strtok()
+    // cout<< strtok(input, " ")<<endl;  //this function print the first word to avoid this we have passed NULL in subsequent function
+    // cout<< strtok(NULL, " ")<<endl; //internally maintains the state of the string you passed in the last function call,
+    // cout<< strtok(NULL, " ")<<endl; // by making a static variable
+    // cout<< strtok(NULL, " ")<<endl; //To get all the tokens/ words lets use with while loop
+
+    char *token = strtok(input, " "); //this will give 1st word
+
+    while(token != NULL){
+        cout<<token<<endl;  
+        token = strtok(NULL, " ");   //this will give subsequent words/token
+    }
+    return 0;
+}
