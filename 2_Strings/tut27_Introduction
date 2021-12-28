@@ -1,0 +1,41 @@
+#include<iostream>
+#include<string>  //to get dynamic array of strings
+#include<vector>
+using namespace std;
+
+int main()
+{
+    //chr s[1000] = {'1','2','4', 'a','\0'};   //static array
+    //string s = "hello world";  //dynamic array
+    //string s("hello world");  //calling contractor to make this obj
+
+    //taking as input from user
+    // string s;
+    // getline(cin,s);   //it's used coz it take space also as an input
+
+    // getline(cin, s, '.');  //dot means terminating by a dot means tell when to stop taking input
+
+    //iterating over strings
+    // for(char ch : s)   //for every char ch in string s output ch
+    // {
+    //     cout<< ch <<",";
+    // }
+
+    
+    int n=5;   //input 5 string
+    vector<string> sarr;   //in vector of string
+    string temp;
+
+    while(n--)
+    {
+        getline(cin, temp);
+        sarr.push_back(temp);
+    }
+    for(string x : sarr)
+    {
+        cout<<x<<","<<endl;  //by default string terminate at new line
+    }
+     
+    //cout<<s<<endl;
+    return 0;
+}
