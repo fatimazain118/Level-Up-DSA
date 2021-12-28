@@ -1,0 +1,38 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main()
+{
+    string paragraph = "We are learning about STL string. STL is important topic in programming";
+
+    string word;
+    getline(cin, word);
+
+    //find function
+
+    //cout<< paragraph.find(word) <<endl;  //this will give the index of the word in the paragraph
+
+    int index = paragraph.find(word);
+
+    // if(index == -1)
+    // {
+    //    cout<<"string not found"<<endl;
+    // }
+
+    // cout<<index<<endl;
+
+    //To find all occurences of the word
+
+    if(index != -1)
+      {
+          cout<<"first occ" <<index<<endl;
+      }
+
+      index = paragraph.find(word, index+1);
+
+      if(index != -1){
+          cout<<"second occ"<<index <<endl;
+      }
+    return 0;
+}
