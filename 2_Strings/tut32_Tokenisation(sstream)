@@ -1,0 +1,28 @@
+//String Tokenization - It denote splitting a string with respect to some delimiter(s)
+//Using stringstream Class
+
+#include<iostream>
+#include<sstream>
+#include<vector>
+#include<cstring>
+using namespace std;
+
+int main(){
+    string input;
+    getline(cin,input);
+
+    //create a string stream object
+    stringstream buffer(input);   //this buffer can read the data and also write the data
+
+    //>> and << operator
+    string token;
+    vector<string> tokens;    //In token single single word from the input will be pushed
+    while(getline(buffer, token, '.')){  //here delimiter is "."
+        tokens.push_back(token);
+    }
+
+    //print all the tokens
+    for(auto token : tokens){
+    cout<<token<<",";
+     }
+}
