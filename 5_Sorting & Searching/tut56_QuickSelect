@@ -1,0 +1,47 @@
+//QuickSelect
+//kth smallest element
+
+#include<bits/stdc++.h>   //using this compilation is slow
+// #include<iostream>
+// #include<vector>
+using namespace std;
+
+int partition(vector<int> &a, int s, int e){
+    int pivot = a[e];
+    int i = s-1;
+
+    for(int j=s; j<e; j++){
+        if(a[j] < pivot){
+            i++;
+            swap(a[i],a[j]);
+        }
+    }
+    swap(a[i+1],a[e]); //to make pivot to it's correct place
+    return i+1;         //return the index of pivot element
+}
+
+int quickSelect(vector<int> &a, int s, int e, int k){  //as in c++ by default we have pass by value
+     
+     //assuming k<n
+     int p = partition(a,s,e);
+     if(p==k){
+         return a[p];
+     }
+     else if(k<p){
+         return quickSelect(a,s,p-1,k);
+     }
+     else{
+         return quickSelect(a,p+1,e,k);
+     }
+}
+
+int main(){
+    vector<int> arr{10,5,2,0,7,6,4};
+    
+    int n = arr.size();
+    int k;
+    cin>>k;
+    cout<<quickSelect(arr,0,n-1,k);
+
+    return 0;
+}
