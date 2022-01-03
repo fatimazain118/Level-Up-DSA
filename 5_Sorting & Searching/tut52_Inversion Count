@@ -1,0 +1,75 @@
+//Inversion Sort
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+//helper method
+int merge(vector<int> &array, int s, int e){    //pass by reference so that changes get reflected in array
+       int i = s;
+       int mid = (s+e)/2;
+       int j = mid+1;
+
+       vector<int> temp;   //making temp vector to store sorted array
+
+    int count = 0;
+
+       while(i<=mid and j<=e){
+           if(array[i] < array[j]){
+               temp.push_back(array[i]);
+               i++;
+           }
+           else{
+               count += (mid - i + 1);
+               temp.push_back(array[j]);
+               j++;
+           }
+       }
+
+       //coping remaining element from first array if second is finished
+       while(i<=mid){
+           temp.push_back(array[i++]);
+       }
+
+       //coping remaining element from second array if first is finished
+       while(j<=e){
+           temp.push_back(array[j++]);
+       }
+
+       //Coping back the element of temp array to original array
+       int k = 0;
+       for(int idx = s; idx <=e; idx++){
+           array[idx] = temp[k++];
+       }
+       return count;
+}
+
+//sorting
+int Inversion_Count(vector<int> &array, int s, int e){
+
+    //base case
+    if(s>=e){  //only one element in array
+        return 0;
+    }
+
+    //recursive case
+    int mid = (s+e)/2;
+    int C1 = Inversion_Count(array,s,mid);
+    int C2 = Inversion_Count(array, mid+1,e);
+    int CI = merge(array,s,e);      //to find the cross inversion of left and right
+    return C1 + C2 + CI;
+}
+
+int main(){
+
+    vector<int> arr{0,5,2,3,1};
+
+    int s = 0; //start
+    int e = arr.size() -1; //end
+    cout<< Inversion_Count(arr, s, e)<<endl;
+        // for(int x : arr){
+        //     cout<< x <<",";
+        //}
+    }
+
+T.C - O(NlogN)
