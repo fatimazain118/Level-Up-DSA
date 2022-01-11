@@ -1,0 +1,52 @@
+//Game of Greed
+
+#include<bits/stdc++.h>
+using namespace std;
+
+bool divideAmongK(int arr[], int n, int k, int min_coins){
+       
+       int partitions  = 0;
+       int current_friend = 0;
+
+       for(int i = 0; i<n; i++){
+           if(current_friend + arr[i] >= min_coins){   //agar increse then mid
+               partitions += 1;                        // then increase the no. of partition
+               current_friend = 0;                     // now do this for next friend
+           }
+           else{
+               current_friend += arr[i];        //if smaller than mid so give that partiton to the friend
+                  }
+       }
+       return partitions >= k;
+}
+int k_partition(int *arr, int n, int k){
+    int s = 0;
+    int e = 0;   //sum of coins in array means starting me wo bhi zero
+    int ans;
+    for(int i = 0; i<n; i++){
+        e += arr[i];  //as we'll go increase it
+    }
+
+    while(s<=e){
+        int mid = (s+e)/2;
+        bool isPossible = divideAmongK(arr,n,k,mid);   //everyone gets aleast mid no. of coins
+
+        if(isPossible){
+            s = mid+1;
+            ans = mid;
+        }
+        else{
+            e = mid -1;
+        }
+    }
+    return ans;   //min coins you are going to get
+}
+int main(){
+    int a[] = {10,20,40,30};
+    int n = sizeof(a)/sizeof(int);
+    int k = 3;     //friends = no. of partition
+
+    cout<<k_partition(a,n,k);
+
+    return 0;
+}
