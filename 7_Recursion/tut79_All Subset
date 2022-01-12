@@ -1,0 +1,29 @@
+//Finding all Subsets == Subsequence -> non-continuous
+//Substring = continuous
+
+#include<bits/stdc++.h>
+#include<vector>
+using namespace std;
+int countSubsets(vector<int> arr, int n, int i, int X){
+
+    //base case
+    if(i==n){
+        if(X==0){
+            return 1;
+        }
+        return 0;
+    }
+
+    //recursive case
+    int inc = countSubsets(arr, n, i+1, X - arr[i]);    //when current is included
+    int exc = countSubsets(arr, n, i+1, X);            //not included
+    return inc + exc;
+}
+
+int main(){
+    vector<int> arr{1,2,3,4,5};
+    int X = 6;
+
+    cout<<countSubsets(arr, arr.size(), 0,X)<<endl;
+    return 0;
+}
