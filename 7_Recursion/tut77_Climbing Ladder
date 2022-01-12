@@ -1,0 +1,31 @@
+//Ladder-- Taking jump of 1,2 or 3 at a time 
+//Find no. of ways to climb ladder using recursion
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int countWays(int n){
+
+    //Base
+    if(n == 0){   //standing on 0th level i.e ground
+        return 1;   //as there's only one way to stand on the ground
+    }
+
+    if(n<0){
+        return 0;
+    }
+
+    //Recursive
+    return countWays(n-1) + countWays(n-2) + countWays(n-3);  //we can reach last step of ladder by taking 1jump or 2 or 3 jump at a time
+
+}
+
+int main(){
+    int N;  
+    cin>>N;   //steps
+    cout<<countWays(N);
+
+    return 0;
+}
+
+//T.C - O(3^N)
