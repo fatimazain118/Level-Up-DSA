@@ -1,0 +1,23 @@
+//Recursion
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int goHome(int x, int Home){
+
+    if(x == Home){
+        cout<<"Reached Home";
+    }
+
+    x = x + 1;
+    goHome(x, Home);
+}
+
+//Main
+int main(){
+    int x = 1;
+    int Home = 10;
+    goHome(x, Home);
+
+    return 0;
+}
