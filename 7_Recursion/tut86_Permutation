@@ -1,0 +1,26 @@
+//All permutation of string
+
+//With Backtracting
+#include<bits/stdc++.h>
+using namespace std;
+
+void permute(string s, int i){
+    int e = s.size() - 1;
+    if(i==e){
+        cout<<s<<endl;
+        return;
+    }
+    for(int k = i; k<=e; k++){
+        swap(s[i], s[k]); //to restore the main array
+        permute(s, i+1);
+        swap(s[i],s[k]);
+    }
+    return;
+}
+int main(){
+    string s;
+    cin>>s;
+
+    permute(s,0);
+    return 0;
+}
