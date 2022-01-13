@@ -1,0 +1,33 @@
+//Generate all possible string using that number i.e index of the input array
+
+#include<bits/stdc++.h>
+using namespace std;
+
+string keypad[] = {"","", "ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"};
+
+void printKeypadOutput(string input, string output, int i=0){
+      
+      if(input[i] == '\0'){  //finish with the string
+          cout<<output<<endl;
+      }
+
+      //recursive case
+      int current_digit = input[i] - '0';  //sub to get integer
+      if(current_digit == 0 or current_digit == 1){
+          printKeypadOutput(input, output, i+1);  //agar 1 ya 0 aai input me just do i+1 as that's not map with any string
+      }
+
+      //iterating over keypad to map integers with the alphabets
+      for(int k=0; k<keypad[current_digit].size(); k++){
+          printKeypadOutput(input, output + keypad[current_digit][k], i+1);
+      }
+      return;
+}
+int main(){
+    string input;
+    cin>>input;
+
+    string output;
+    printKeypadOutput(input, output);
+    return 0;
+    }
