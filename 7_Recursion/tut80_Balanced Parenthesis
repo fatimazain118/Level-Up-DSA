@@ -1,0 +1,31 @@
+//Print all possible n pair of balanced parenthesis
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void generateBrackets(string s, int n, int open, int close, int i){
+    //base case
+    if(i==2*n){   //when reach at last when n=3 it'll make 3*2 pairs
+        cout<<s<<endl;  
+        return;
+    }
+     
+     //In beginning we have to put '(' not ')' bracket as we need balanced parenthesis
+    //open
+    if(open<n){
+        generateBrackets(s + '(', n, open+1, close, i+1);  //when we encounter '(' add it to the output increase it's count 
+    }
+
+    //close
+    if(close<open){
+        generateBrackets(s + ')', n, open, close+1, i+1);
+    }
+}
+int main(){
+    string s;  //initialy we have empty string
+    int n;
+    cin>>n;
+
+    generateBrackets(s,n,0,0,0);
+    return 0;
+}
