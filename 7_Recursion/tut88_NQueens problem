@@ -1,0 +1,75 @@
+//N-Queen pblm Queen attack along the row, col, diagonal
+
+#include<bits/stdc++.h>
+using namespace std;
+
+bool canPlace(int board[][20], int n, int x, int y){
+    //col
+    for(int k=0; k<x; k++){
+        if(board[k][y]==1){
+            return false;
+        }
+    }
+    //left dia
+    int i = x;
+    int j = y;
+    while(i>=0 and j>=0){
+        if(board[i][j]==1){
+            return false;
+        }
+        i--; j--;
+    }
+
+    //right diagonal
+    i = x;
+    j = y;
+    while(i>=0 and j<=n){
+        if(board[i][j] == 1){
+            return false;
+        }
+        i--; j++;
+    }
+    return true;
+}
+
+void printBoard(int n, int board[][20]){
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            cout<< board[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    //cout<<endl;
+}
+bool solveNQueen(int n, int board[][20], int i){  //i for row in which we are
+    //base case
+    if(i==n){
+       //Print the board
+       printBoard(n,board);
+       return true;
+    }
+
+    //rec case
+    //try to place queen in every row
+    for(int j=0; j<n; j++){
+        //whether the current i,j is save or not
+        if(canPlace(board,n,i,j)){
+            board[i][j] = 1;
+            bool success = solveNQueen(n,board,i+1);  //if the pblm is not solve by next sub-pblms we backtrack, if solved return true
+            if(success){
+                return true;
+            }
+            //backtrack
+            board[i][j] = 0;  //earlier position of queen will be made 0
+        }
+    }
+    return false;   //when we have traveled the entire columns in a row, signal is send to previous rows that some configuration went wrong
+}
+int main(){
+    int board[20][20] = {0};
+    int n;
+    cin>>n;
+
+    solveNQueen(n, board, 0);   //0 indicate the in which you are
+    return 0;
+}
