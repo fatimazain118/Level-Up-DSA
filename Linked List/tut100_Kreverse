@@ -1,0 +1,79 @@
+//Reverse-k node in a linked list at a time 
+
+#include<bits/stdc++.h>
+using namespace std;
+class node{
+    public:
+     int data;
+     node *next;
+      
+      node(int data){
+        this->data = data;
+        next = NULL;
+      }
+};
+
+node * Kreverse(node *head, int k){
+    //base case
+    if(head==NULL){
+        return NULL;
+    }
+
+    //reverse the first k-nodes
+    node *prev = NULL;
+    node *curr = head;
+    node *temp;
+    int count = 1;
+
+    while(curr!=NULL and count<=k){
+        temp = curr->next;
+        curr->next = prev;
+
+        //moving pointers ahead
+        prev = curr;  //pehle yhi aaiga
+        curr = temp;
+        count++; //to reverse only k-nodes
+
+    }
+
+    if(temp!=NULL){
+        head->next = Kreverse(temp,k);  //if at last there are less then k nodes remaining
+    }
+
+    return prev;
+}
+
+void insertAtHead(node *&head, int data){
+    if(head == NULL){
+        head = new node(data);
+        return;
+    }
+
+    node *n = new node(data);
+    n->next = head;
+    head = n;
+}
+
+void printLL(node *head){
+    while(head!=NULL){
+        cout<<head->data<<"->";
+        head = head->next;
+    }
+    cout<<endl;
+}
+int main(){
+    node *head = NULL;
+
+    insertAtHead(head,4);
+    insertAtHead(head,5);
+    insertAtHead(head,7);
+    insertAtHead(head,8);
+    insertAtHead(head,9);
+
+    printLL(head);
+
+    head = Kreverse(head,3);
+    printLL(head);
+
+    return 0;
+}
