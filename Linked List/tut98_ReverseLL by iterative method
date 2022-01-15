@@ -1,0 +1,80 @@
+//Reserve Linked list using Iterative method
+//here space complexity will be O(1) as no stack memory is required like in recursion
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class node
+{
+public:
+    int data;
+    node *next;
+
+    node(int data)
+    {
+        this->data = data;
+        next = NULL;
+    }
+};
+
+void reverseLL(node *&head)
+{
+    node *prev = NULL;
+    node *curr = head;
+    node *temp;
+
+    while (curr != NULL)
+    {
+        //store next
+        temp = curr->next;
+        //update current
+        curr->next = prev;
+
+        //prev and current
+        prev = curr;
+        curr = temp;
+    }
+    head = prev;
+    return;
+}
+
+//it take O(1) to insert a node in beginning
+void insertAtHead(node *&head, int data)
+{ //here passing by reference to reflect changes in the LL
+    if (head == NULL)
+    {                          //means theres nothing in the LL
+        head = new node(data); //so make a new node and at the head point to it
+        return;
+    }
+
+    //otherwise
+    node *n = new node(data); //make a new node
+    n->next = head;           //and point it's next to head
+    head = n;                 //and make head to point n (the new node)
+}
+
+void printLL(node *head)
+{
+    while (head != NULL)
+    {
+        cout << head->data << "->";
+        head = head->next;
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    node *head = NULL;
+    insertAtHead(head, 4);
+    insertAtHead(head, 3);
+    insertAtHead(head, 5);
+    insertAtHead(head, 8);
+    insertAtHead(head, 9);
+
+    printLL(head);
+    reverseLL(head);
+    printLL(head);
+
+    return 0;
+}
