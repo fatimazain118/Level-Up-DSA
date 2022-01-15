@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+      int data;
+      node* next;
+
+      node(int data){
+          this->data = data;
+          next = NULL;
+      }
+};
+
+void insertAtHead(node * &head, int data){
+    if(head==NULL){
+        head = new node(data);
+        return;
+    }
+
+    node *n = new node(data);
+    n->next = head;
+    head = n;
+}
+
+void printLL(node *head){
+    while(head!=NULL){
+        cout<<head->data<<"->";
+        head = head->next;
+    }
+}
+
+void insertInMiddle(node *&head, int data, int position){ //after which position we have to insert
+    if(position==0){                        //it's like insert at head
+        insertAtHead(head,data);
+    }
+    else{
+        node *temp = head;
+        for(int jump=1;jump<=position-1;jump++){
+            temp = temp->next;
+        }
+        node *n = new node(data);
+        n->next = temp->next;
+        temp->next = n;
+    }
+}
+
+int main(){
+    node *head = NULL;
+
+    insertAtHead(head,4);
+    insertAtHead(head,31);
+    insertAtHead(head,5);
+    insertAtHead(head,6);
+    insertAtHead(head,8);
+
+    insertInMiddle(head,100,3);
+
+    printLL(head);
+    return 0;
+}
