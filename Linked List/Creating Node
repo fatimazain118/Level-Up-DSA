@@ -1,0 +1,20 @@
+//Node* is the address of particular box
+//and node is that particular box
+
+#include<bits/stdc++.h>
+using namespace std;
+
+template<typename T>
+class Node{
+    T data;
+    Node<T> * next;
+
+public:
+   Node(T data){
+       this->data = data;
+       next = NULL;
+   }    
+};
+
+//Creating a Node in Main
+Node<int> *n = new Node<int>(10);
