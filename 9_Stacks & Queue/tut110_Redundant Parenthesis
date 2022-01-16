@@ -1,0 +1,42 @@
+//Redundant Parenthesis
+
+#include<bits/stdc++.h>
+using namespace std;
+
+bool checkRedundant(string str){
+    stack<char> s;
+
+    for(char ch : str){
+        if(ch!=')'){   //untill it's not closing bracket push into the stack
+           s.push(ch);
+        }
+        else{
+            //means we found closing brackets '('
+            bool operator_found = false; //during "(" poping if operator is not found then it's redundant
+
+            while(!s.empty() and s.top()!='('){ //poping condition
+               char top = s.top();
+               if(top=='+' or top=='-' or top=='*' or top=='/'){
+                   operator_found = true;
+               }
+               s.pop();
+            }
+            s.pop();  //used to pop remaining "(" bracket
+            if(operator_found == false){
+                return true;
+            }
+        }
+    }
+    return false;  //means nothing went wrong no redundant pair
+}
+int main(){
+    string str = "((a+b)+c) + (d*e)";
+    //string str = "((d*e))";
+    if(checkRedundant(str)){
+        cout<<"Contain Redundant paranthesis";
+    }
+    else{
+        cout<<"Doesn't contain Redundant Paranthesis";
+    }
+    return 0;
+}
