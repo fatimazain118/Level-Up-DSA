@@ -1,0 +1,77 @@
+//level order traversal
+//Input was given in file form
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+    int data;
+    node* left;
+    node* right;
+
+    node(int d){    //constructor
+        data = d;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+node* buildTree(){
+    int d;   //value of the node
+    cin>>d;
+
+    if(d==-1){     //means node have no child node
+        return NULL;
+    }
+
+    node* n = new node(d);
+    n->left = buildTree();
+    n->right = buildTree();
+
+    return n;
+}
+
+void levelOrderPrint(node* root){
+    queue<node*> q;  //we have taken node* type coz in queue we'll need pointer to keep track of child nodes
+    q.push(root);
+    q.push(NULL);  //to get new line after 1st level
+
+    while(!q.empty()){
+        node* temp = q.front();
+        if(temp==NULL){  //when you see NULL in queue output endl for new line and insert one more NULL
+            cout<<endl;
+            q.pop();    //also pop that NULL
+            //insert new NULL for next level
+            if(!q.empty()){
+                q.push(NULL);
+            }
+        }
+        else{
+            q.pop();
+            cout<<temp->data<<" ";
+
+            if(temp->left){
+                q.push(temp->left);
+            }
+            if(temp->right){
+                q.push(temp->right);
+            }
+        }
+    }
+    return;
+}
+int main(){
+    freopen("tree_input.cpp", "r",stdin);
+    node* root = buildTree();
+    levelOrderPrint(root);
+    return 0;
+}
+__________________________________________________________________________________
+tree_input.cpp have -- 1 2 4  -1 -1 5 7 -1 -1 -1 3 -1 6 -1 -1
+________________________________________________________________________________
+Output
+1 
+2 3
+4 5 6
+7
