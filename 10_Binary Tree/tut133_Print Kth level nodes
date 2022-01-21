@@ -1,0 +1,53 @@
+//Print all nodes at Kth level
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+    int data;
+    node* left;
+    node* right;
+
+    node(int d){    //constructor
+        data = d;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+node* buildTree(){
+    int d;   //value of the node
+    cin>>d;
+
+    if(d==-1){     //means node have no child node
+        return NULL;
+    }
+
+    node* n = new node(d);
+    n->left = buildTree();
+    n->right = buildTree();
+
+    return n;
+}
+
+
+void PrintLevelK(node *root, int k){
+      if(root==NULL || k<0){
+          return;
+      }
+      if(k==0){                      //0th level
+          cout<<root->data<<" ";
+      }
+
+      PrintLevelK(root->left, k-1);
+      PrintLevelK(root->right, k-1);
+}
+
+int main(){
+    freopen("tree_input.cpp", "r",stdin);
+    node* root = buildTree();
+
+   PrintLevelK(root,2);
+   return 0;
+}
