@@ -1,0 +1,15 @@
+//Create BST from given array with min height
+//if we use previous method then for 12345 we'll get skewed tree of O(N^2) also tree will be not height balanced
+
+node* sortedArrayToBST(vector<int> arr, int start, int end){
+    if(start > end){
+        return NULL;
+    }
+    int mid = (start+end)/2;
+    node* root = new node(arr[mid]);
+
+    root->left = sortedArrayToBST(arr,start,mid-1);
+    root->right = sortedArrayToBST(arr,mid+1,end);
+    
+    return root;
+}
