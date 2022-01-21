@@ -1,0 +1,61 @@
+//Vertical Order print
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+    int data;
+    node* left;
+    node* right;
+
+    node(int d){    //constructor
+        data = d;
+        left = NULL;
+        right = NULL;
+    }
+};
+//&m coz we don't need to keep the copies of m, to reflect changes used this
+void traverseTree(node*root, int d, map<int,vector<int>> &m){
+    if(root==NULL){
+        return;
+    }
+
+    m[d].push_back(root->data);  //same distance wale map it and push in vector
+    traverseTree(root->left,d-1,m);
+    traverseTree(root->right,d+1,m);
+}
+void verticalPrint(node *root){
+     map<int,vector<int>> m;
+     int d = 0;
+
+     traverseTree(root,d,m);
+
+     //keys are store in sorted order in maps
+     //so iterating over the keys of maps to print value
+     for(auto x : m){
+         int key = x.first;    //making key value pair
+         vector<int> line = x.second;  //line means same distance wale node(value)
+
+         for(auto data : line){
+             cout<<data<<" ";
+         }
+         cout<<endl;
+     }
+     return;
+}
+int main(){
+  
+  node* root = new node(1);
+  root->left = new node(2);
+  root->right = new node(3);
+  root->left->left = new node(4);
+  root->left->right = new node(5);
+  root->right->left = new node(6);
+  root->right->right = new node(7);  
+  root->right->left->right = new node(8);
+  root->right->right->right = new node(9);
+  
+ verticalPrint(root);
+ return 0;
+}
