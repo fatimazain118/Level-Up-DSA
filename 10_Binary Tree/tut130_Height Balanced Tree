@@ -1,0 +1,72 @@
+//Height Balanced Tree
+//T.C-O(N)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+    int data;
+    node* left;
+    node* right;
+
+    node(int d){    //constructor
+        data = d;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+node* buildTree(){
+    int d;   //value of the node
+    cin>>d;
+
+    if(d==-1){     //means node have no child node
+        return NULL;
+    }
+
+    node* n = new node(d);
+    n->left = buildTree();
+    n->right = buildTree();
+
+    return n;
+}
+
+pair<int,bool> isHeightBalanced(node *root){
+    pair<int,bool> p, Left, right;
+     if(root==NULL){
+         p.first = 0;  //height
+         p.second = true;  //tree is balanced
+         return p;
+     }
+  
+    //rec case
+    Left = isHeightBalanced(root->left);
+    right = isHeightBalanced(root->right);
+
+    int height = max(Left.first, right.first) + 1;  //max height at root
+    
+    /*giving conditions of height balanced tree
+    1. difference of height of left subtree and right subtree should be less then and equal to 1 |h1 - h2| <= 1 
+    2.Left subtree should be isHeightBalanced
+    3.Right subtree should be isHeightBalanced (rec calls)
+    */
+    if(abs(Left.first - right.first)<=1 and Left.second and right.second)  //abs is absolute value
+    {
+        return make_pair(height,true);
+    }
+    return make_pair(height, false);
+}
+
+int main(){
+    freopen("tree_input.cpp", "r",stdin);
+    node* root = buildTree();
+    pair<int,bool> p= isHeightBalanced(root);
+    if(p.second){
+        cout<<"Yes, it's height balanced";
+    }
+    else{
+        cout<<"Not a height balanced tree";
+    }
+    return 0;
+}
