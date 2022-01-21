@@ -1,0 +1,99 @@
+//Height Balanced Tree
+//Question - return maxsum of subset, only condition is that if you include the parnt you dont include it's child and vice-versa
+//Logic used is-- in subset sum problem we do like as brute force approach whether you should include or exclude that value
+//T.C-O(N)
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+    int data;
+    node* left;
+    node* right;
+
+    node(int d){    //constructor
+        data = d;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+node* buildTree(){
+    int d;   //value of the node
+    cin>>d;
+
+    if(d==-1){     //means node have no child node
+        return NULL;
+    }
+
+    node* n = new node(d);
+    n->left = buildTree();
+    n->right = buildTree();
+
+    return n;
+}
+
+void levelOrderPrint(node* root){
+    queue<node*> q;  //we have taken node* type coz in queue we'll need pointer to keep track of child nodes
+    q.push(root);
+    q.push(NULL);  //to get new line after 1st level
+
+    while(!q.empty()){
+        node* temp = q.front();
+        if(temp==NULL){  //when you see NULL in queue output endl for new line and insert one more NULL
+            cout<<endl;
+            q.pop();    //also pop that NULL
+            //insert new NULL for next level
+            if(!q.empty()){
+                q.push(NULL);
+            }
+        }
+        else{
+            q.pop();
+            cout<<temp->data<<" ";
+
+            if(temp->left){
+                q.push(temp->left);
+            }
+            if(temp->right){
+                q.push(temp->right);
+            }
+        }
+    }
+    return;
+}
+
+class Pair{
+    public:
+     int inc;   //include
+     int exc;  //not using stl like p.first and p.second to make program more readable
+};
+
+Pair maxSubsetSum(node* root){
+    Pair p;
+
+    if(root==NULL){
+        p.inc = p.exc = 0;
+        return p;
+    }
+
+    Pair Left = maxSubsetSum(root->left);
+    Pair Right = maxSubsetSum(root->right);
+
+    p.inc = root->data + Left.exc + Right.exc;  //when including root's value
+    p.exc = max(Left.inc, Left.exc) + max(Right.inc,Right.exc);  //when excluding root's value then take max value's from it's child
+
+    return p;
+}
+
+int main(){
+    freopen("tree_input.cpp", "r",stdin);
+    node* root = buildTree();
+   levelOrderPrint(root);
+
+   Pair p = maxSubsetSum(root);
+   cout<<"Max Sum : "<< max(p.inc, p.exc) <<endl;
+    return 0;
+}
