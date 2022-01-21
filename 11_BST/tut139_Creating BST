@@ -1,0 +1,107 @@
+//Creating BST
+//Searching is efficient in BST
+//Searching taking O(logn)<=O(Height)<= O(N)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+      int key;
+      node *left;
+      node *right;
+
+    node(int key){
+        this->key = key;
+        left = right = NULL;
+    }
+};
+
+node* insertion(node* root, int key){
+    if(root == NULL){
+        return new node(key);  //if root has no child make new node 
+    }
+
+    //rec
+    if(key < root->key){                     //as in BST left nodes are less then root node and right node are greater then root node
+        root->left = insertion(root->left,key);
+    }
+    else{
+        root->right = insertion(root->right,key);
+    }
+
+    return root;
+}
+
+void printInOrder(node *root){
+    if(root==NULL){
+        return;
+    }
+    //first left,root, then right
+    printInOrder(root->left);
+    cout<<root->key <<",";
+    printInOrder(root->right);
+}
+int main(){
+    node *root = NULL;
+    int arr[] = {8,3,10,1,6,14,4,7,13};
+
+    for(int x : arr){
+        root = insertion(root,x);
+    }
+    printInOrder(root);
+    return 0;
+}//CReating BST
+//SEarching is efficient in BST
+//SEarching taking O(logn)<=O(Height)<= O(N)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+      int key;
+      node *left;
+      node *right;
+
+    node(int key){
+        this->key = key;
+        left = right = NULL;
+    }
+};
+
+node* insertion(node* root, int key){
+    if(root == NULL){
+        return new node(key);  //if root has no child make new node 
+    }
+
+    //rec
+    if(key < root->key){                     //as in BST left nodes are less then root node and right node are greater then root node
+        root->left = insertion(root->left,key);
+    }
+    else{
+        root->right = insertion(root->right,key);
+    }
+
+    return root;
+}
+
+void printInOrder(node *root){
+    if(root==NULL){
+        return;
+    }
+    //first left,root, then right
+    printInOrder(root->left);
+    cout<<root->key <<",";
+    printInOrder(root->right);
+}
+int main(){
+    node *root = NULL;
+    int arr[] = {8,3,10,1,6,14,4,7,13};
+
+    for(int x : arr){
+        root = insertion(root,x);
+    }
+    printInOrder(root);
+    return 0;
+}
