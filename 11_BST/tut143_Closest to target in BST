@@ -1,0 +1,73 @@
+//Find closest of the target node in BST
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+      int key;
+      node *left;
+      node *right;
+
+    node(int key){
+        this->key = key;
+        left = right = NULL;
+    }
+};
+
+node* insertion(node* root, int key){
+    if(root == NULL){
+        return new node(key);  //if root has no child make new node 
+    }
+
+    //rec
+    if(key < root->key){                     //as in BST left nodes are less then root node and right node are greater then root node
+        root->left = insertion(root->left,key);
+    }
+    else{
+        root->right = insertion(root->right,key);
+    }
+
+    return root;
+}
+
+//here we'll use iterative way as here that will be more efficient in terms of space
+int findClosestInBST(node* root, int target){
+    int closest;
+    int diff = INT_MAX;
+
+    node* temp = root;
+
+    while(temp!=NULL){
+        int current_diff = abs(temp->key - target);
+
+        if(current_diff==0){
+            return temp->key;  //found the key
+        }
+        if(current_diff < diff){
+            diff = current_diff;
+            closest = temp->key;
+        }
+
+        //for left and right traversal
+        if(temp->key < target){
+            temp = temp->right;
+        }
+        else{
+            temp = temp->left;
+        }
+    }
+    return closest;
+}
+
+int main(){
+    node *root = NULL;
+    int arr[] = {8,3,10,1,6,14,4,7,13};
+
+    for(int x : arr){
+        root = insertion(root,x);
+    }
+   
+    cout<<findClosestInBST(root,17)<<endl;
+    return 0;
+}
