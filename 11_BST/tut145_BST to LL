@@ -1,0 +1,95 @@
+//BST to Linked List using right pointers only
+//T.C - O(N)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+      int key;
+      node *left;
+      node *right;
+
+    node(int key){
+        this->key = key;
+        left = right = NULL;
+    }
+};
+
+node* insertion(node* root, int key){
+    if(root == NULL){
+        return new node(key);  //if root has no child make new node 
+    }
+
+    //rec
+    if(key < root->key){                     //as in BST left nodes are less then root node and right node are greater then root node
+        root->left = insertion(root->left,key);
+    }
+    else{
+        root->right = insertion(root->right,key);
+    }
+
+    return root;
+}
+
+class LinkedList{   //we cam also use pair but it's more readable
+    public:
+     node* head;  //these are BST pointers only
+     node* tail;  //these are the pointers that will return from each node
+};
+
+LinkedList tree2LL(node* root){
+    LinkedList l;  //return type LinkedList
+
+    //base
+    if(root==NULL){
+        l.head = l.tail = NULL;
+        return l;
+    }
+
+    //4cases
+    if(root->left==NULL and root->right==NULL){
+        l.head = l.tail = root;
+    }
+    else if(root->left!=NULL and root->right==NULL){
+        LinkedList leftLL = tree2LL(root->left);
+        leftLL.tail->right = root;
+
+        l.head = leftLL.head; //new head
+        l.tail = root;
+    }
+    else if(root->left==NULL and root->right!=NULL){
+        LinkedList rightLL = tree2LL(root->right);
+         root->right = rightLL.head;
+
+        l.head = root; //new head
+        l.tail = rightLL.tail;
+    }
+    else{   //both child are present
+      LinkedList leftLL = tree2LL(root->left);    //postorder traversal
+      LinkedList rightLL = tree2LL(root->right);
+      leftLL.tail->right = root;
+      root->right = rightLL.head;
+      
+      l.head = leftLL.head; //new head
+      l.tail = rightLL.tail;
+   }
+   return l;
+}
+
+int main(){
+    node *root = NULL;
+    int arr[] = {8,3,10,1,6,14,4,7,13};
+
+    for(int x : arr){
+        root = insertion(root,x);
+    }
+    
+    LinkedList l = tree2LL(root);
+    node* temp = l.head;
+    while(temp!=NULL){
+        cout<<temp->key<<"-->";   //we'll sorted LL
+        temp = temp->right;  //next ki jagah right
+    }
+    return 0;
+}
