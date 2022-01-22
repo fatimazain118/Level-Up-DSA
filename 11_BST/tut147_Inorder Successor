@@ -1,0 +1,78 @@
+//Inorder Successor for BST
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class node{
+    public:
+      int key;
+      node *left;
+      node *right;
+
+    node(int key){
+        this->key = key;
+        left = right = NULL;
+    }
+};
+
+node* insertion(node* root, int key){
+    if(root == NULL){
+        return new node(key);  //if root has no child make new node 
+    }
+
+    //rec
+    if(key < root->key){                     //as in BST left nodes are less then root node and right node are greater then root node
+        root->left = insertion(root->left,key);
+    }
+    else{
+        root->right = insertion(root->right,key);
+    }
+
+    return root;
+}
+
+node* InorderSuccessor(node* root, node* target){
+    //if right subtree is not NULL we'll take the min element by traverssing to it's left
+    if(target->right!=NULL){
+        node* temp = target->right;
+        while(temp->left!=NULL){
+            temp = temp->left;
+        }
+        return temp;
+    }
+
+    //otherwise storing evry node
+    node* temp = root;
+    node* succ = NULL;
+
+    while(temp!=NULL){
+        if(temp->key > target->key){
+            succ = temp;
+            temp = temp->left;
+        }
+        else if(temp->key < target->key){
+            temp = temp->right;
+        }
+        else{
+            break;
+        }
+    }
+    return succ;
+}
+int main(){
+    node *root = NULL;
+    root = insertion(root,8);
+    root = insertion(root,3);
+    root = insertion(root,10);
+    root = insertion(root,1);
+    root = insertion(root,6);
+    root = insertion(root,14);
+    root = insertion(root,4);
+    root = insertion(root,7);
+    root = insertion(root,13);
+
+    node* t1 = root->left->right->right;
+
+    cout<<"Inorder succ of 7 is : "<<InorderSuccessor(root, t1)->key<<endl;
+    return 0;
+}
