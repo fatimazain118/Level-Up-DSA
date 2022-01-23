@@ -1,0 +1,32 @@
+//We can use in build priority queue class as a heap data structure
+//here the element have certain priority
+//here we are using element having higher value have higher priority
+
+#include<bits/stdc++.h>
+using namespace std;
+
+//we can also make our custom comparators
+class Compare{
+    public:
+      bool operator()(int a, int b){
+          return a > b;          //internally it'll do comparison when it's called--minheap
+      }
+};
+
+int main(){
+    int arr[] = {10,15,20,13,6,90};
+    int n = sizeof(arr)/sizeof(int);
+
+    //priority_queue<int> heap;   //it's a max heap by default
+    //priority_queue<int, vector<int>, greater<int>> heap;   //to make it a min heap ,greater function is a comparator function which reverse the comparison
+    priority_queue<int, vector<int>, Compare> heap;      //using our custom comparator
+    for(int x : arr){
+        heap.push(x);
+    }
+
+    while(!heap.empty()){
+        cout<<heap.top()<<endl;   //this will output in descending order(sorting)
+        heap.pop();
+    }
+    return 0;
+}
