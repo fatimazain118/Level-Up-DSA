@@ -1,0 +1,37 @@
+//Merging two ropes -- they give min merging cost
+//1. make min heap of all the ropes
+//2. take pair of two merge them and add the cost back to the min heap
+//3. repeate the steps untill you get one rope
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int join_ropes(int ropes[], int n){
+
+    //min heap
+    priority_queue<int, vector<int>, greater<int>> min_heap(ropes, ropes+n);
+
+    //logic
+    int cost = 0;
+    while(min_heap.size() > 1){
+        int A = min_heap.top();
+        min_heap.pop();
+
+        int B = min_heap.top();
+        min_heap.pop();               //taking two min pairs of element from min_heap
+
+        int new_rope = (A+B);
+        cost += new_rope;           //computing for min cost
+        min_heap.push(new_rope);
+    }
+
+    return cost;
+}
+int main(){
+    int ropes[] = {4,3,2,6};
+    int  n = 4;
+
+    cout<<join_ropes(ropes, n)<<endl;
+
+    return 0;
+}
