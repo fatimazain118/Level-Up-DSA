@@ -1,0 +1,59 @@
+//Merge k-sorted array
+
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> mergekArrays(vector<vector<int>> arrays)
+{
+    //logic
+    int k = arrays.size();
+
+    //triplets containing --> element, array idx, element idx
+    priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> q;
+
+    //output vector
+    vector<int> output;
+
+    //initialised the heap
+    for (int i = 0; i < k; i++)
+    {
+        int element = arrays[i][0]; //first iterating on 1st column to get min element
+        q.push({element, i, 0});
+    }
+
+    //start poping & pushing more elemnt
+    while (!q.empty())
+    {
+        auto top = q.top();
+        q.pop();
+
+        int element = top[0]; //this is info of root element which contains
+        int a_idx = top[1];
+        int e_idx = top[2]; //in heap node we'll have these 3 thing
+
+        output.push_back(element);
+        if (e_idx + 1 < arrays[a_idx].size())
+        {
+             //means when all element of one array finishes
+            int next_element = arrays[a_idx][e_idx + 1];
+            q.push({next_element, a_idx, e_idx + 1}); //pushing all three info for next node
+        }
+    }
+    return output;
+}
+int main()
+{
+    vector<vector<int>> arr = {{10, 15, 20, 30},
+                               {2, 5, 8, 14, 24},
+                               {0, 11, 60, 90}};
+
+    vector<int> result = mergekArrays(arr);
+
+    //output
+
+    for (auto x : result)
+    {
+        cout << x << ",";
+    }
+    return 0;
+}
