@@ -1,0 +1,68 @@
+//Running Median
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+    priority_queue<int> leftheap;  //max heap
+    priority_queue<int,vector<int>,greater<int>> rightheap;  //min heap
+
+    int d;
+    cin>>d;
+    leftheap.push(d);   //first elemnt is always push in left heap
+
+    float med = d;  //for 1st element median will be same
+    cout<<med<<" "; //so print it
+
+    cin>>d;  //enter other element
+    while(d!=-1){
+        //left heap is greater or right heap is greatr or eqaul
+        
+        //case 1
+        if(leftheap.size() > rightheap.size()){
+            if(d < med){             //check whether the element enter is less then median 
+               rightheap.push(leftheap.top());  //we'll do rebalancing
+               leftheap.pop();
+               leftheap.push(d);               //then push in left
+            }
+            else{
+                rightheap.push(d);
+            }
+            med = (leftheap.top()+rightheap.top())/2;   //means after pushing in right both sizes will be equal and med will be top's avg
+        }
+        //case2
+        else if(leftheap.size()==rightheap.size()){
+            if(d < med){
+                leftheap.push(d);
+                med = leftheap.top();
+            }
+            else{
+                rightheap.push(d);
+                med = rightheap.top();
+            }
+        }
+        //case 3
+        else{
+            if(d < med){
+                leftheap.push(d);  //d is less then median also left heap size is less so directly push into it
+            }
+            //do rebalancing
+            else{
+                leftheap.push(rightheap.top());
+            rightheap.pop();
+            rightheap.push(d);
+            }
+            med = (leftheap.top() + rightheap.top())/2;
+        }
+
+        cout<<med <<" ";             //output med for 2nd element
+        cin>>d;  //input next element
+    }
+
+    return 0;
+}
+-----------------------------------------------------------
+Output:
+enter i/p-10 5 2 3 0 12 18 20 22 -1
+o/p-10 7 5 4 3 4 5 7 10 
