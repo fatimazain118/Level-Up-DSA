@@ -1,0 +1,108 @@
+//Counting axis parallel rectangle
+//T.C - O(N^2)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+//custom Point class
+class Point
+{
+public:
+    int x;
+    int y;
+
+    Point()
+    {
+    }
+
+    Point(int x, int y)
+    {
+        this->x = x;
+        this->y = y;
+    }
+};
+
+//Comparator class
+class Compare
+{
+public:
+    bool operator()(const Point p1, const Point p2)
+    {
+        if (p1.x == p2.x)
+        {
+            return p1.y < p2.y;
+        }
+        return p1.x < p2.x;
+    }
+};
+
+int count_rectangles(vector<Point> points)
+{
+    int ans = 0;
+    //1. Insert all Points in the set to look up the elemnt in O(logn)
+    set<Point, Compare> s; //set keeps the thing in sorted order, as Point is custom class so we need to give Compare class so point kis ordr m compare ho
+
+    for (Point p : points)
+    {
+        s.insert(p);
+    }
+
+    //2. Logic Brute Force for two points + LookUp for other two
+    for (auto it = s.begin(); it != prev(s.end()); it++)
+    { //iterating till 2nd last element
+        for (auto jt = next(it); jt != s.end(); jt++)
+        { //iterating till last element
+
+            Point p1 = *it;
+            Point p2 = *jt;
+
+            //small check that we want to make so that we pick diagonal element no on same axis
+            if (p2.x == p1.x or p2.y == p1.y)
+            {
+                continue;
+            }
+
+            //for P3, P4
+
+            /*P1-------P4(x2,y1)
+                |         |
+                |         |
+                |         |
+                P3--------P2(x2,y2)
+                */
+
+            Point p3(p1.x, p2.y);
+            Point p4(p2.x, p1.y);
+
+            //LookUp for p3,p4 in set
+            if (s.find(p3) != s.end() and s.find(p4) != s.end())
+            {
+
+                ans += 1;
+            }
+        }
+    }
+    return ans / 2;
+}
+int main()
+{
+    freopen("input_162.txt", "r", stdin);
+    int N;
+    cin >> N;
+
+    int x, y;
+
+    vector<Point> points;
+
+    for (int i = 0; i < N; i++)
+    {
+        cin >> x >> y;
+        Point p(x, y);       //created a point object
+        points.push_back(p); //push into the vector
+    }
+
+    cout << count_rectangles(points) << endl;
+    return 0;
+}
+_______________________________
+Output - 6
