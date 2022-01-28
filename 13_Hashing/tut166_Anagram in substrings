@@ -1,0 +1,68 @@
+// Anagrams In substrings
+// T.C - O(N^3)
+
+/*
+1. Generate all substrings
+2. Generate their hash
+3. Hash the 'hash' values to club all the anagrams in single bucket, to get their frequency count
+4. From freq count, we can easily count the pairs
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> getHashValues(string s, int i, int j)
+{
+    vector<int> freq(26, 0); //making vector of freq for 26 character initialised to 0
+
+    //iterate over the original string from i to j to fill this vector
+    for (int k = i; k <= j; k++)
+    {
+        char ch = s[k];   // enter the current character
+        freq[ch - 'a']++; // and it's freq
+    }
+    return freq;
+}
+
+int anagram_substrings(string s)
+{
+
+    map<vector<int>, int> m;
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        for (int j = i; j < s.length(); j++)
+        {
+
+            //Substring S[i....j]
+            vector<int> h = getHashValues(s, i, j);
+            //put it in map
+            m[h]++; // same type of substring get added
+        }
+    }
+
+    // 4th step
+    int ans = 0;
+    for (auto p : m)
+    {
+        int freq = p.second;
+        if (freq >= 2)
+        {
+            ans += (freq) * (freq - 1) / 2; //nc2
+        }
+    }
+    return ans;
+}
+
+int main()
+{
+    string s;
+    cin >> s;
+
+    cout << anagram_substrings(s);
+    return 0;
+}
+_________________________________
+Output :
+abba
+4
