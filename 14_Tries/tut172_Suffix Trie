@@ -1,0 +1,93 @@
+// Suffix Tries Implementation
+// Mostly same like prefix-Trie
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Build a Suffix Tree - Tries
+class Node
+{
+public:
+    char data;
+    unordered_map<char, Node *> m; //this map given character with the node
+    bool isTerminal;               // tells this node is terminal or not
+
+    Node(char d)
+    { // whenever we got new data except it and make new node
+        data = d;
+        isTerminal = false; // by default it will be empty map
+    }
+};
+
+class Suffix_Trie
+{
+public:
+    Node *root; //pointer to the root node
+
+    Suffix_Trie()
+    {
+        root = new Node('\0'); // filling null in root node
+    }
+
+    void insert_helper(string word)
+    {
+        Node *temp = root; // creating temp pointer to iterate on the words
+
+        for (char ch : word)
+        {
+            if (temp->m.count(ch) == 0)
+            {                           // it check in hash map wheather key is present or not
+                Node *n = new Node(ch); //if that character is not present in hash map create new node for that where n pointer is pointing
+                temp->m[ch] = n;        // make connection to previous node (storing the character in new node)
+            }
+            temp = temp->m[ch]; // moving temp to next node
+        }
+        temp->isTerminal = true; // when it's end of the word
+    }
+
+    bool search(string word)
+    {
+        Node *temp = root; // starting from root
+
+        for (char ch : word)
+        {
+            if (temp->m.count(ch) == 0)
+            {
+                return false; // means character not present
+            }
+            temp = temp->m[ch];
+        }
+        return temp->isTerminal; // if temp is a terminal node then only return
+    }
+
+    void insert(string word){                                           //for inserting substring
+        //pick all substring from (i, endOfString) and call insert_helper
+
+        for(int i=0; word[i]!='\0'; i++){
+            insert_helper(word.substr(i));      //creating all possible substring and putting in the trie
+        }
+    }
+};
+
+int main()
+{
+
+    string input = "hello";
+    string suffixes[] = {"lo", "ell", "hello"};
+
+    Suffix_Trie t;
+   t.insert(input);
+
+   for(auto sf : suffixes){
+       if(t.search(sf)){
+           cout<<"yes ";
+       }
+       else{
+           cout<<"no ";
+       }
+   }
+    return 0;
+}
+________________________________________________________________
+Ouput :
+yes no yes 
