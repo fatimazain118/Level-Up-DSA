@@ -1,0 +1,108 @@
+// Cute little Cat
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Build a Prefix Tree - Tries
+class Node
+{
+public:
+    char data;
+    unordered_map<char, Node *> children; //this map given character with the node
+    bool isTerminal;               // tells this node is terminal or not
+
+    Node(char d)
+    { // whenever we got new data except it and make new node
+        data = d;
+        isTerminal = false; // by default it will be empty map
+    }
+};
+
+
+class Trie
+{
+public:
+    Node *root; //pointer to the root node
+
+    Trie()
+    {
+        root = new Node('\0'); // filling null in root node
+    }
+
+    void insert(string word)
+    {
+        Node *temp = root; // creating temp pointer to iterate on the words
+
+        for (char ch : word)
+        {
+            if (temp->children.count(ch) == 0)
+            {                           // it check in hash map wheather key is present or not
+                Node *n = new Node(ch); //if that character is not present in hash map create new node for that where n pointer is pointing
+                temp->children[ch] = n;        // make connection to previous node (storing the character in new node)
+            }
+            temp = temp->children[ch]; // moving temp to next node
+        }
+        temp->isTerminal = true; // when it's end of the word
+    }
+};
+
+void searchHelper(Trie t, string document, int i, unordered_map<string,bool> &m){   //pararelly searching in doc
+        Node* temp = t.root;
+        for(int j = i; j<document.length(); j++){
+            char ch = document[j];
+
+            if(temp->children.count(ch) == 0){        // if that is not found in doc
+                return;
+            }
+
+            temp = temp->children[ch];
+            if(temp->isTerminal){
+                 //history part
+                 string out = document.substr(i,j-i+1);
+                 m[out] = true;
+            }
+        }
+        return;
+}
+
+void documentSearch(string document, vector<string> words){
+      
+   //1. Create a trie of words
+   Trie t;
+   for(auto w : words){
+       t.insert(w);
+   }
+
+   //2. Searching (Helper function)
+   unordered_map<string,bool> m;             // whatever word we'll get we'll put in map
+   for(int i=0; i<document.length(); i++){
+       searchHelper(t, document, i, m);
+   }
+
+   //3. You can check which words are marked as True inside Hashmap
+
+   for(auto w : words){
+       if(m[w]){
+           cout<<w<<" : True"<<endl;
+       }
+       else{
+           cout<<w<<" : False"<<endl;
+       }
+   }
+   return;
+}
+
+int main(){
+    string document = "little cute cat loves to code in c++, java & python";
+    vector<string> words = {"cute cat", "ttle","cat", "quick", "big"};
+
+    documentSearch(document, words);
+    return 0;
+}
+___________________________________________________
+Output:
+cute cat : True
+ttle : True
+cat : True
+quick : False
+big : False
