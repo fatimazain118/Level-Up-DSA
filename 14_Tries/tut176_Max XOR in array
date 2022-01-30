@@ -1,0 +1,112 @@
+// Biggest XOR implementation
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class node
+{
+public:
+    node *left;
+    node *right;
+};
+
+class Trie
+{
+    node *root;
+
+public:
+    Trie()
+    {
+        root = new node();
+    }
+
+    void insert(int n)
+    {
+        //bits of that number in the trie
+        node *temp = root;
+        for (int i = 31; i >= 0; i--)           //let's first get 3 -- 00011
+        { //taking 32 bits in a number starting from most significanct bit
+            int bit = (n >> i) & 1;      //we'll get 1st 0      
+            if (bit == 0)
+            {
+                if (temp->left == NULL)
+                {
+                    temp->left = new node();      //make a new node in left of trie and insert '0' bit
+                }
+                temp = temp->left;       //then move to further left to insert more bits of 3
+            }
+            else
+            {
+                if (temp->right == NULL)
+                {
+                    temp->right = new node();
+                }
+                temp = temp->right;
+            }
+        }
+    }
+
+    int max_xor_helper(int value)
+    {
+        int current_ans = 0;
+        node *temp = root;
+
+        for (int j = 31; j >= 0; j--)           //iterating on entire bits
+        {
+            int bit = (value >> j) & 1;
+            if (bit == 0)
+            {
+                //find the opp value means 1
+                if (temp->right != NULL)    //means 1 is present in other right branch
+                {
+                    temp = temp->right;
+                    current_ans += (1 << j);         //means 2^j us bit ka add krdo
+                }
+                else
+                {
+                    temp = temp->left;
+                }
+            }
+            else
+            {
+                //look for a zero
+                if (temp->left != NULL)
+                {
+                    temp = temp->left;
+                    current_ans += (1 << j);
+                }
+                else
+                {
+                    temp = temp->right;
+                }
+            }
+        }
+        return current_ans;
+    }
+
+    int max_xor(int *input, int n)
+    {
+        int max_xor = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int value = input[i];        // first we get 3 as a input
+            insert(value);               //insert that into the trie
+            int current_xor = max_xor_helper(value);       //after insert along with this check from left from which it'll get max_xor
+            max_xor = max(max_xor, current_xor);
+        }
+        return max_xor;
+    }
+};
+
+int main()
+{
+    int input[] = {3, 10, 5, 25, 9, 2};
+    int n = sizeof(input) / sizeof(int);
+
+    Trie t;
+    cout << t.max_xor(input, n) << endl;
+    return 0;
+}
+_________________________________________
+Output:(by xor of 5 and 25)
+28
