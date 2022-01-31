@@ -1,0 +1,73 @@
+// BFS Implementation (which is also level order print)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Graph
+{
+    list<int> *l;
+    int V; //for vertex
+
+public:
+    Graph(int v)
+    {
+        V = v;
+        l = new list<int>[V]; //V no. of linked list of intergers
+    }
+
+    void addEdge(int i, int j, bool undir = true)
+    {                      // when graph is undirected and i ang j are nodes
+        l[i].push_back(j); // insert the jth node in l[i]
+        if (undir)
+        {
+            l[j].push_back(i); //also insert the node in i in l[j] means 1 is neighbour of 2 and 2 is also neighbour of 1
+        }
+    }
+
+    void bfs(int source)
+    {
+        queue<int> q;
+        bool *visited = new bool[V]{0}; // for keeping track of all visited nodes
+
+        q.push(source);         // pushing staring node in queue
+        visited[source] = true; // and mark that visited
+
+        while (!q.empty())
+        {
+            // Do some work for every node
+            int f = q.front();
+            cout << f << " ";
+            q.pop();
+
+            //push the neighbours of current node inside the queue if they are not already visited
+            for (auto neigh : l[f])
+            { //we'll get neighbours from adjacency list
+                if (!visited[neigh])
+                {
+                    q.push(neigh);
+                    visited[neigh] = true;
+                }
+            }
+        }
+    }
+};
+
+int main()
+{
+    Graph g(7);
+    g.addEdge(0, 1);
+    g.addEdge(0, 4);
+    g.addEdge(3, 4);
+    g.addEdge(4, 5);
+    g.addEdge(5, 6);
+    g.addEdge(3, 5);
+    g.addEdge(1, 2);
+    g.addEdge(2, 3);
+
+    g.bfs(1); // giving root node
+
+    return 0;
+}
+_________________________________
+Output :
+1 0 2 4 3 5 6 
