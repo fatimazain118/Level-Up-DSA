@@ -1,0 +1,116 @@
+// Shortest path using BFS
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Graph
+{
+    list<int> *l;
+    int V; //for vertex
+
+public:
+    Graph(int v)
+    {
+        V = v;
+        l = new list<int>[V]; //V no. of linked list of intergers
+    }
+
+    void addEdge(int i, int j, bool undir = true)
+    {                      // when graph is undirected and i ang j are nodes
+        l[i].push_back(j); // insert the jth node in l[i]
+        if (undir)
+        {
+            l[j].push_back(i); //also insert the node in i in l[j] means 1 is neighbour of 2 and 2 is also neighbour of 1
+        }
+    }
+
+    void bfs(int source, int destination = -1)
+    {
+        queue<int> q;
+        bool *visited = new bool[V]{0}; // for keeping track of all visited nodes
+        int *dist = new int[V]{0};      //to keep track of distance
+        int *parent = new int[V];       //to trace shortest path
+
+        for (int i = 0; i < V; i++)
+        {
+            parent[i] = -1; //initialy all parent member are initialised as -1
+        }
+
+        q.push(source);         // pushing staring node in queue
+        visited[source] = true; // and mark that visited
+        parent[source] = source;
+        dist[source] = 0;
+
+         cout << "BST is : "<<endl;
+        while (!q.empty())
+        {
+            // Do some work for every node
+            int f = q.front();
+            cout << f << " ";
+            q.pop();
+
+            //push the neighbours of current node inside the queue if they are not already visited
+            for (auto neigh : l[f])
+            { //we'll get neighbours from adjacency list
+                if (!visited[neigh])
+                {
+                    q.push(neigh);
+                    // update the parent and dist node also as visited
+                    parent[neigh] = f;         //parent of neighbour is going to be "f"
+                    dist[neigh] = dist[f] + 1; // as soon we move further add 1
+                    visited[neigh] = true;
+                }
+            }
+        }
+
+        //print the shortest distance which is single source shortest path using BFS
+        for (int i = 0; i < V; i++)
+        {
+            cout << "Shortest dist to " << i << " from source is " << dist[i] << endl;
+        }
+
+        //print the shortest path from source to any dest
+
+        if (destination != -1)
+        {
+            int temp = destination;
+            cout << "Shortest path from " << source << " to " << destination << " is : " << endl;
+
+            while (temp != source)
+            {
+                cout << temp << " -- ";
+                temp = parent[temp]; //going one step back
+            }
+            cout << source << endl;
+        }
+    }
+};
+
+int main()
+{
+    Graph g(7);
+    g.addEdge(0, 1);
+    g.addEdge(0, 4);
+    g.addEdge(3, 4);
+    g.addEdge(4, 5);
+    g.addEdge(5, 6);
+    g.addEdge(3, 5);
+    g.addEdge(1, 2);
+    g.addEdge(2, 3);
+
+    g.bfs(1, 6); // let we have to find shortest path from 1 to 6
+
+    return 0;
+}
+_____________________________________________________________________________
+Output :
+BST is : 
+1 0 2 4 3 5 6 Shortest dist to 0 from source is 1
+Shortest dist to 1 from source is 0
+Shortest dist to 2 from source is 1
+Shortest dist to 3 from source is 2
+Shortest dist to 4 from source is 2
+Shortest dist to 5 from source is 3
+Shortest dist to 6 from source is 4
+Shortest path from 1 to 6 is : 
+6 -- 5 -- 4 -- 0 -- 1
