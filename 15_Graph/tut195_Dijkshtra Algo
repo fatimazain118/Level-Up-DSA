@@ -1,0 +1,101 @@
+// Dijkshtra's Algorithm
+// Single source shortest path Algo means from single source we'll get the shortest distance to every destination node
+// Weighed Graph
+// We'll use set data structure coz set keep the elements sorted according some property(here we have dist)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Graph
+{
+    list<pair<int, int>> *l; //array of pointers
+    int V;                   //for vertex
+
+public:
+    Graph(int v)
+    {
+        V = v;
+        l = new list<pair<int, int>>[V]; //V no. of linked list of intergers
+    }
+
+    void addEdge(int u, int v, int wt, bool undir = true)
+    {
+        l[u].push_back({wt, v});
+        if (undir)
+        {
+            l[v].push_back({wt, u});
+        }
+    }
+
+    int dijkstra(int src, int dest)
+    {
+
+        //Data structure
+        vector<int> dist(V, INT_MAX); //storing the distance initialy INT_MAX
+        set<pair<int, int>> s;        //each set denote current node and it's distance
+
+        //1. Init
+        dist[src] = 0;      //dist of source is 0
+        s.insert({0, src}); //insert in set also dist is 0 and node is source
+
+        while (!s.empty())
+        {
+
+            auto it = s.begin(); //iterator
+            int node = it->second;
+            int distTillNOw = it->first;
+            s.erase(it); //pop
+
+            //Iterate over the nbrs of node
+            for (auto nbrPair : l[node])
+            {
+                int nbr = nbrPair.second;
+                int currentEdge = nbrPair.first; //0->(1,1),(4,2),(7,3)
+
+                if (distTillNOw + currentEdge < dist[nbr])
+                {
+                    //remove if nbr already exist in the set
+
+                    auto f = s.find({dist[nbr], nbr});
+                    if (f != s.end())
+                    {
+                        s.erase(f);
+                    }
+
+                    //insert updated value
+                    dist[nbr] = distTillNOw + currentEdge; //update new dist
+                    s.insert({dist[nbr], nbr});   //insert the new dist and node in set
+                }
+            }
+        }
+
+        //Single Source Shorest Dist to all other nodes
+        for (int i = 0; i < V; i++)
+        {
+            cout << "Node " << i << " is at Dist : " << dist[i] << endl;
+        }
+        return dist[dest];
+    }
+};
+
+int main()
+{
+    Graph g(5);
+    g.addEdge(0, 1, 1);
+    g.addEdge(1, 2, 1);
+    g.addEdge(0, 2, 4);
+    g.addEdge(0, 3, 7);
+    g.addEdge(3, 2, 2);
+    g.addEdge(3, 4, 3);
+
+    cout << g.dijkstra(0, 4) << endl;
+    return 0;
+}
+_______________________________________________________
+Output 
+Node 0 is at Dist : 0
+Node 1 is at Dist : 1
+Node 2 is at Dist : 2
+Node 3 is at Dist : 4
+Node 4 is at Dist : 7
+7
