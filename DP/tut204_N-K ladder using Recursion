@@ -1,0 +1,33 @@
+//N-K ladder (Recursive approach)
+// O(k^n)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int countWays(int n, int k)
+{
+    if(n==0){                  // standing on ground
+        return 1;
+    }
+    if(n<0){
+        return 0;
+    }
+    //recursive case 
+    int ans = 0;
+    for(int jump = 1; jump<=k; jump++){
+        ans += countWays(n-jump,k);
+    }
+    return ans;
+}
+
+int main(){
+    int n,k;
+    cin>>n>>k;
+
+    cout<<countWays(n,k)<<endl;
+    return 0;
+}
+___________________________________
+Output :
+2 3
+7
