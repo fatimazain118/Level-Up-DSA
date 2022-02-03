@@ -1,0 +1,56 @@
+// Cutting Rod Code
+//Bottom-Up
+
+#include<bits/stdc++.h>
+using namespace std;
+
+//Recursive
+int max_profit(int prices[], int n){
+        //base case
+        if(n<=0){
+            return 0;
+        }
+
+        //rec case
+        int ans = INT_MIN;
+
+        for(int i=0; i<n; i++){
+            int cut = i+1;        //array indexing starts frm 0 to for i=0 cut will be 1
+
+            int current_ans = prices[i] + max_profit(prices, n-cut);
+            ans = max(ans,current_ans);
+        }
+        return ans;
+}
+
+//Bottom-Up
+
+int max_profit_dp(int *prices, int n){
+    int dp[n+1];
+    dp[0] = 0;
+
+    for(int len=1; len<=n; len++){
+
+        int ans = INT_MIN;
+        for(int i=0; i<len; i++){
+          int cut = i+1;
+          int current_ans = prices[i] + dp[len-cut];
+          ans = max(current_ans,ans);
+    }
+    dp[len] = ans;
+}
+return dp[n];
+}
+
+int main(){
+    int prices[] = {3,5,8,9,10,17,17,20};
+    int n = sizeof(prices)/sizeof(int);
+
+    cout<<max_profit(prices,n)<<endl;
+    cout<<max_profit_dp(prices,n)<<endl;
+    return 0;
+}
+_______________________________
+Output:
+24
+24
