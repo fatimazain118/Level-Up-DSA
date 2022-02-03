@@ -1,0 +1,35 @@
+//N-K ladder (Bottom-Up approach)
+// O(nk)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int countWaysBU(int n, int k){
+    //iterative approach
+
+    vector<int> dp(n+1,0);          //n=1 coz array indexing start from 0
+       
+       dp[0] = 1;
+
+       for(int i=1; i<=n; i++){
+           for(int jump=1; jump<=k; jump++){
+               if(i-jump>=0){
+                   dp[i] += dp[i-jump];     //adding last k=3 last 3 elemets from dp
+               }
+           }
+       }
+       return dp[n];
+}
+
+int main(){
+    int n,k;
+    cin>>n>>k;
+
+int dp[1000] = {0};           //making dp array
+    cout<<countWaysBU(n,k)<<endl;
+    return 0;
+}
+____________________________________
+Output:
+4 3
+7
