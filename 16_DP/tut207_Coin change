@@ -1,0 +1,35 @@
+// Coin change
+//Bottom-Up
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int minNumberOfCoinsForChange(int n, vector<int> coins)
+{
+    vector<int> dp(n + 1, 0);
+    dp[0] = 0;
+
+    for (int i = 1; i <= n; i++)
+    {
+        dp[i] = INT_MAX; //min store krengye to initialy do this
+
+        for (int c : coins)
+        { //added this to handle case in dp cells which are not part of coins vector
+            if (i - c >= 0 and dp[i - c] != INT_MAX)
+            { //coz coins will not be in minus
+                dp[i] = min(dp[i], dp[i - c] + 1);
+            }
+        }
+    }
+    return dp[n] == INT_MAX ? -1 : dp[n];
+}
+
+int main()
+{
+    vector<int> coins = {1, 3, 7, 10};
+    int m = 15; //target
+    cout << minNumberOfCoinsForChange(m, coins);
+}
+_____________________________________
+Output:
+3
