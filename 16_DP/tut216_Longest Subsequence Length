@@ -1,0 +1,38 @@
+// Longest Increasing Subsequence(non-contiguious element) Length
+
+#include <bits/stdc++.h>
+using namespace std;
+
+//Bottom-Up
+int LIS(vector<int> arr)
+{
+    int n = arr.size();
+    vector<int> dp(n, 1); //as one element have one length
+
+    int len = 1;
+
+    for (int i = 1; i < n; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {                                //for every element we'll iterate j elements back to form subsequence
+            if (arr[i] > arr[j])
+            {                                           // to check it's in increasing order
+                //dp[i] = max(dp[i], 1 + dp[j]);        //dp[i] to hmesha 1 he rhega initialy
+                dp[i] =  1 + dp[j];
+                len = max(len,dp[i]);
+            }
+        }
+    }
+    return len;
+}
+int main()
+{
+    vector<int> arr{50, 4, 10, 8, 30, 100};
+
+    cout << LIS(arr) << endl;
+    return 0;
+}
+________________________________
+Output:
+4
+//from 4,10,30,100
