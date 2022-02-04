@@ -1,0 +1,39 @@
+// Max Array Sum of Non-adjacent element
+// bottom-Up
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int MaxSubsetSumNonAdjacent(vector<int> arr){
+    int n = arr.size();
+
+if(n==1){
+    return max(arr[0],0);
+}
+else if(n==2){
+    return max(0, max(arr[0],arr[1]));
+}
+    vector<int> dp(n,0);
+    dp[0] = max(arr[0], 0);   //when array has negative value
+    dp[1] = max(0, max(arr[0],arr[1]));
+
+    //rec
+    for(int i=2; i<n; i++){
+        int inc = dp[i-2] + arr[i];      //including current value
+        int exc = dp[i-1];               //excluding current value
+
+        dp[i] = max(inc,exc);
+    }
+    return dp[n-1];
+}
+int main(){
+    vector<int> arr = {6,10,12,7,9,14};
+
+    cout<<MaxSubsetSumNonAdjacent(arr);
+
+    return 0;
+}
+__________________________________
+Output:
+32
+//by 6+12+14
