@@ -1,0 +1,78 @@
+// No. of BST from N nodes
+
+#include <bits/stdc++.h>
+using namespace std;
+
+//recursive approach
+//exponential time
+int countBST(int n)
+{
+    if (n == 0 or n == 1)
+    {
+        return 1;
+    }
+
+    int ans = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        int x = countBST(i - 1); //counting no. of way to count left sub-tree
+        int y = countBST(n - i); //counting no. of way to count right sub-tree
+
+        ans += x * y;
+    }
+    return ans;
+}
+
+//Top-Down
+//O(n^2)
+int countBSTTopDown(int n, vector<int> dp){
+      if (n == 0 or n == 1)
+    {
+        return 1;
+    }
+
+if(dp[n]!=0){
+    return dp[n];
+}
+    int ans = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        int x = countBSTTopDown(i - 1, dp); //counting no. of way to count left sub-tree
+        int y = countBSTTopDown(n - i,dp); //counting no. of way to count right sub-tree
+
+        ans += x * y;
+    }
+    return dp[n] = ans;
+}
+
+// Bottom-Up approach
+// fill dp vector
+int countBSTBottomUp(int N, vector<int> dp){
+      dp[0] = dp[1] = 1;
+
+      for(int i=2; i<=N; i++){
+          for(int j=1; j<=i; j++){
+
+              dp[i] += (dp[j-1] * dp[i-j]);      //for j as root left*right subtree 
+          }
+      }
+      return dp[N];
+}
+int main()
+{
+    int n;
+    cin >> n;
+
+vector<int> dp(n+1,0);
+    
+    cout << "For " << n << " nodes, we have : " << countBST(n) << " BST from recursive approach" << endl;
+    cout << "For " << n << " nodes, we have : " << countBSTTopDown(n,dp) << " BST from Top-Down approach" << endl;
+    cout << "For " << n << " nodes, we have : " << countBSTBottomUp(n,dp) << " BST from Bottom-Up approach" << endl;
+    return 0;
+}
+______________________________
+Output:
+3
+For 3 nodes, we have : 5 BST from recursive approach
+For 3 nodes, we have : 5 BST from Top-Down approach
+For 3 nodes, we have : 5 BST from Bottom-Up approach
