@@ -1,0 +1,80 @@
+// LCS
+// Bottom-UP
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int LCS(string s1, string s2)
+{
+    // base case
+    int n1 = s1.length();
+    int n2 = s2.length();
+
+    //2D dp array
+    vector<vector<int>> dp(n1 + 1, vector<int>(n2 + 1, 0));
+
+    for (int i = 1; i <= n1; i++)
+    {
+        for (int j = 1; j <= n2; j++)
+        {
+
+            if (s1[i - 1] == s2[j - 1])
+            { //as in string indexing is 0 based and in this loop is 0 based so i-1
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+            }
+            else
+            {
+                int option1 = dp[i-1][j];    
+                int option2 = dp[i][j-1];
+                dp[i][j] = max(option1, option2);
+            }
+        }
+    }
+    //print dp matrix
+    for(int i=0; i<=n1; i++){
+        for(int j=0; j<=n2; j++){
+            cout<<dp[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    // To get Longest subsequence do backtracking
+    vector<int> result;
+    int i=n1, j=n2;
+    while(i!=0 and j!=0){
+        if(dp[i][j] == dp[i][j-1]){
+            j--;                     // go in left side
+        }
+        if(dp[i][j] == dp[i-1][j]){
+            i--;                     // go up
+        }
+        else{                          // else go in diagonal means it's a match
+            result.push_back(s1[i-1]);
+            i--;
+            j--;
+        }
+    }
+    reverse(result.begin(), result.end());
+    for(char x : result){
+        cout<<x<< " ";
+    }
+    return dp[n1][n2];
+}
+int main()
+{
+    string s1 = "ABCD";
+    string s2 = "ABEDG";
+    //cout<<LCS(s1,s2)<<endl;
+    cout<<LCS(s2,s1)<<endl;
+
+    return 0;
+}
+________________________________________
+Output:
+0 0 0 0 0                // 2D dp matrix
+0 1 1 1 1
+0 1 2 2 2
+0 1 2 2 2
+0 1 2 2 3
+0 1 2 2 3
+A B D 3                   // Subsequence of length 3
