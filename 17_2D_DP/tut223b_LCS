@@ -1,0 +1,61 @@
+// Longest Common Subsequence
+// Top-Down
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int LCS(string s1, string s2, int i, int j, vector<vector<int>> &dp)
+{
+    //base Case
+    if (i == s1.length() or j == s2.length())    { //one of the string is finished
+        return 0;
+    }
+
+    // check if the state is already computed or not
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+
+    //rec case
+    if (s1[i] == s2[j])
+    {
+        return dp[i][j] = 1 + LCS(s1, s2, i + 1, j + 1,dp);      //before returning update the dp vector
+    }
+
+    if (s1[i] != s2[j])
+    {
+        int option1 = LCS(s1, s2, i + 1, j,dp); //excluding s1 character
+        int option2 = LCS(s1, s2, i, j + 1, dp);
+        return dp[i][j] = max(option1, option2);
+    }
+}
+int main()
+{
+    string s1 = "ABCD";
+    string s2 = "ABEDG";
+
+    int n1 = s1.length();
+    int n2 = s2.length();
+
+    // creating 2D dp vector of n1*n2
+    vector<vector<int>> dp(n1, vector<int>(n2,-1));       // n1 is no. of rows and each row is vector and each row contains n2 no. of cells initialised with -1
+    cout << LCS(s1, s2, 0, 0,dp) << endl;
+
+    //printing the dp vector
+    cout<<"Dp vector : "<<endl; 
+    for(int i=0; i<n1; i++){
+        for(int j=0; j<n2; j++){
+            cout<<dp[i][j]<<",";         //our main ans is filled at dp[i][j] i.e 3
+        }
+        cout<<endl;
+    }
+    return 0;
+}
+____________________________________
+Output:
+3
+Dp vector : 
+3,-1,-1,-1,-1,
+-1,2,-1,-1,-1,
+-1,-1,1,1,0,
+-1,-1,1,1,0,
