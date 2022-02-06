@@ -1,0 +1,32 @@
+// Counting Subsequence
+// Recursion
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int countSub(string a, string b, int m, int n){
+
+    //base
+    if(m==-1 and n==-1 or n==-1){          //both are matched or string b is finished
+         return 1;
+    }
+    if(m==-1){          //string a is empty
+        return 0;
+    }
+
+    //rec
+    if(a[m]==b[n]){         //string match
+         return countSub(a,b,m-1,n-1) + countSub(a,b,m-1,n);
+    }
+  return countSub(a,b,m-1,n);         //when no match decreament from string "a"
+}
+int main(){
+    string a = "ABBCECDGCC";        //1*2*3 (1 way for A, 2 ways for B and 3 ways for C)
+    string b = "ABC";
+
+    cout<<countSub(a,b,a.size()-1,b.size()-1)<<endl;
+    return 0;
+}
+_________________________________________
+Output:
+8
