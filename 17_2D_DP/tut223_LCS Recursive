@@ -1,0 +1,37 @@
+// Longest Common Subsequence
+// Recursive
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int LCS(string s1, string s2, int i, int j)
+{
+    //base Case
+    if (i == s1.length() or j == s2.length())    { //one of the string is finished
+        return 0;
+    }
+
+    //rec case
+    if (s1[i] == s2[j])
+    {
+        return 1 + LCS(s1, s2, i + 1, j + 1);
+    }
+
+    if (s1[i] != s2[j])
+    {
+        int option1 = LCS(s1, s2, i + 1, j); //excluding s1 character
+        int option2 = LCS(s1, s2, i, j + 1);
+        return max(option1, option2);
+    }
+}
+int main()
+{
+    string s1 = "ABCD";
+    string s2 = "ABEDG";
+
+    cout << LCS(s1, s2, 0, 0) << endl;
+    return 0;
+}
+_______________________________________
+Output:
+3
