@@ -1,5 +1,25 @@
 //Running Median
 
+
+//brute Force
+
+1. Take sorted array and start inserting elements into it and then find median of no.
+2. for N elements, shifting it again N times in wrost case in array --> O(N^2)
+
+OR
+
+1. Sort after very insertion --O(N logN) time
+2. for N running elements it'll be --> O(N^2 logN)
+
+//efficient solution
+
+1. Whenever the element add to the array the median will shift to either left to that previous median or to the right
+2. so take two heap left-> maxheap and right as minheap
+3. when size of both are equal take median of top elements
+4. else when we have to add to the heap having more size just to rebalancing then add the element
+
+//CODE
+
 #include<bits/stdc++.h>
 using namespace std;
 
